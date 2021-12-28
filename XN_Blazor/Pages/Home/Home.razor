@@ -1,0 +1,76 @@
+﻿@page "/"
+
+<br />
+<MudPaper Class="pa-2 ma-1" Outlined="true">
+    <MudCarousel Style="height:200px;" ShowArrows="@arrows" ShowDelimiters="@delimiters" AutoCycle="@autocycle" TData="object">
+        <MudCarouselItem Transition="transition" Color="@Color.Primary">
+            <div class="d-flex" style="height:100%">
+                
+                <MudAvatar Class="mx-auto my-auto" Image="C:\Users\GwonheeLee\OneDrive\바탕 화면\XN_Blazor\XN_Blazor\wwwroot\Img\tile1.jpg" />
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="transition" Color="@Color.Secondary">
+            <div class="d-flex" style="height:100%">
+                <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Size="@Size.Large" />
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="transition">
+            <div class="d-flex" style="height:100%">
+                <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Color="@Color.Primary" Size="@Size.Large" />
+            </div>
+        </MudCarouselItem>
+    </MudCarousel>
+</MudPaper>
+<br />
+
+<MudPaper Class="pa-6 ma-3" Outlined="true">
+    <MudTimeline>
+        <MudTimelineItem Color="Color.Warning" Size="Size.Small">
+            <ItemOpposite>
+                <MudText Color="Color.Warning" Typo="Typo.h5">1960</MudText>
+            </ItemOpposite>
+            <ItemContent>
+                <MudText Color="Color.Warning" Typo="Typo.h6" GutterBottom="true">Atom Towns</MudText>
+                <MudText>Construction of the town of Pripyat, one of 9 “atom towns” begins, to be inhabited by future employees of the nuclear power plants.</MudText>
+            </ItemContent>
+        </MudTimelineItem>
+        <MudTimelineItem Color="Color.Info" Size="Size.Small">
+            <ItemOpposite>
+                <MudText Color="Color.Info" Typo="Typo.h5">1970</MudText>
+            </ItemOpposite>
+            <ItemContent>
+                <MudText Color="Color.Info" Typo="Typo.h6" GutterBottom="true">Atom Towns</MudText>
+                <MudText>Construction of the town of Pripyat, one of 9 “atom towns” begins, to be inhabited by future employees of the nuclear power plants.</MudText>
+            </ItemContent>
+        </MudTimelineItem>
+        <MudTimelineItem Color="Color.Success" Size="Size.Small">
+            <ItemOpposite>
+                <MudText Color="Color.Success" Typo="Typo.h5">1977</MudText>
+            </ItemOpposite>
+            <ItemContent>
+                <MudText Color="Color.Success" Typo="Typo.h6" GutterBottom="true">Operational</MudText>
+                <MudText>The first of the Chernobyl Nuclear Power Plants four reactors is ready to operate followed by number 2 in 1978.</MudText>
+            </ItemContent>
+        </MudTimelineItem>
+        <MudTimelineItem Color="Color.Error" Size="Size.Small">
+            <ItemOpposite>
+                <MudText Color="Color.Error" Typo="Typo.h5">1979</MudText>
+            </ItemOpposite>
+            <ItemContent>
+                <MudText Color="Color.Error" Typo="Typo.h6" GutterBottom="true">Pripyat</MudText>
+                <MudText>Pripyat officially proclaimed as a city.<br />The Chernobyl Atomic Power Station reaches its first 10 billion kilowatt-hours of electical output.</MudText>
+            </ItemContent>
+        </MudTimelineItem>
+    </MudTimeline>
+</MudPaper>
+
+@code{
+    bool arrows = true;
+    bool delimiters = true;
+    bool autocycle = true;
+    Color[] bgColor = { Color.Primary, Color.Secondary,Color.Success};
+
+     Transition transition = Transition.Slide;
+
+    
+}
