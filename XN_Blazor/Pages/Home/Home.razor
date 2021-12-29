@@ -1,22 +1,31 @@
 ﻿@page "/"
 
+@*
+    사람 / @Icons.Filled.AccessibilityNew
+    사람 / @Icons.Filled.AssignmentInd
+    스패너 / @Icons.Filled.Construction
+    스패너 / @Icons.Filled.Build
+*@
 <br />
 <MudPaper Class="pa-2 ma-1" Outlined="true">
-    <MudCarousel Style="height:200px;" ShowArrows="@arrows" ShowDelimiters="@delimiters" AutoCycle="@autocycle" TData="object">
-        <MudCarouselItem Transition="transition" Color="@Color.Primary">
-            <div class="d-flex" style="height:100%">
-                
-                <MudAvatar Class="mx-auto my-auto" Image="C:\Users\GwonheeLee\OneDrive\바탕 화면\XN_Blazor\XN_Blazor\wwwroot\Img\tile1.jpg" />
-            </div>
-        </MudCarouselItem>
+    <MudCarousel TData="object" Style="height:200px;" ShowArrows="@arrows" ShowDelimiters="@delimiters" AutoCycle="@autocycle">
+            <MudCarouselItem Transition="transition"  Color="@Color.Primary">
+                 <div class="d-flex flex-column flex-column justify-center" style="height:100%">
+                     <MudIcon Class="mx-auto" Icon="@Icons.Filled.AccessibilityNew" Size="@Size.Large" />
+                     <MudText Align="@Align.Center" Class="mx-auto">사람</MudText>
+                </div>
+            </MudCarouselItem>
+         
         <MudCarouselItem Transition="transition" Color="@Color.Secondary">
-            <div class="d-flex" style="height:100%">
-                <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Size="@Size.Large" />
+            <div class="d-flex flex-column flex-column justify-center" style="height:100%">
+                <MudIcon Class="mx-auto" Icon="@Icons.Filled.Construction" Size="@Size.Large" />
+                <MudText Align="@Align.Center" Class="mx-auto">품질</MudText>
             </div>
         </MudCarouselItem>
-        <MudCarouselItem Transition="transition">
-            <div class="d-flex" style="height:100%">
-                <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Color="@Color.Primary" Size="@Size.Large" />
+        <MudCarouselItem Transition="transition" Color="@Color.Info">
+            <div class="d-flex flex-column flex-column justify-center" style="height:100%">
+                <MudIcon Class="mx-auto" Icon="@Icons.Filled.AccessTime"  Size="@Size.Large" />
+                <MudText Align="@Align.Center" Class="mx-auto">정직</MudText>
             </div>
         </MudCarouselItem>
     </MudCarousel>
@@ -27,38 +36,44 @@
     <MudTimeline>
         <MudTimelineItem Color="Color.Warning" Size="Size.Small">
             <ItemOpposite>
-                <MudText Color="Color.Warning" Typo="Typo.h5">1960</MudText>
+                <MudText Color="Color.Warning" Typo="Typo.h5">1979</MudText>
             </ItemOpposite>
             <ItemContent>
-                <MudText Color="Color.Warning" Typo="Typo.h6" GutterBottom="true">Atom Towns</MudText>
-                <MudText>Construction of the town of Pripyat, one of 9 “atom towns” begins, to be inhabited by future employees of the nuclear power plants.</MudText>
+                <MudText Color="Color.Warning" Typo="Typo.h6" GutterBottom="true">설립</MudText>
+                <MudText>삼현요업(주) 설립(대표이사 정기환 취임)</MudText>
             </ItemContent>
         </MudTimelineItem>
         <MudTimelineItem Color="Color.Info" Size="Size.Small">
             <ItemOpposite>
-                <MudText Color="Color.Info" Typo="Typo.h5">1970</MudText>
+                <MudText Color="Color.Info" Typo="Typo.h5">2000</MudText>
             </ItemOpposite>
             <ItemContent>
-                <MudText Color="Color.Info" Typo="Typo.h6" GutterBottom="true">Atom Towns</MudText>
-                <MudText>Construction of the town of Pripyat, one of 9 “atom towns” begins, to be inhabited by future employees of the nuclear power plants.</MudText>
+                <MudText Align="@Align.Right" Color="Color.Info" Typo="Typo.h6" GutterBottom="true">국내최초</MudText>
+                <MudText Align="@Align.Right">
+                    <p>대형 Rotocolor 설비 및 Laser Lab 도입</p>
+                    <p>국내최초 대형 타일 생산</p>
+                </MudText>
             </ItemContent>
         </MudTimelineItem>
         <MudTimelineItem Color="Color.Success" Size="Size.Small">
             <ItemOpposite>
-                <MudText Color="Color.Success" Typo="Typo.h5">1977</MudText>
+                <MudText Color="Color.Success" Typo="Typo.h5">2004</MudText>
             </ItemOpposite>
             <ItemContent>
-                <MudText Color="Color.Success" Typo="Typo.h6" GutterBottom="true">Operational</MudText>
-                <MudText>The first of the Chernobyl Nuclear Power Plants four reactors is ready to operate followed by number 2 in 1978.</MudText>
+                <MudText  Color="Color.Success" Typo="Typo.h6" GutterBottom="true">스마트</MudText>
+                <MudText>
+                    <p>전 사업장 및 생산현장 ERP 시스템</p>
+                    <p>POP/MES 시스템 구축</p>
+                </MudText>
             </ItemContent>
         </MudTimelineItem>
         <MudTimelineItem Color="Color.Error" Size="Size.Small">
             <ItemOpposite>
-                <MudText Color="Color.Error" Typo="Typo.h5">1979</MudText>
+                <MudText Color="Color.Error" Typo="Typo.h5">2013</MudText>
             </ItemOpposite>
             <ItemContent>
-                <MudText Color="Color.Error" Typo="Typo.h6" GutterBottom="true">Pripyat</MudText>
-                <MudText>Pripyat officially proclaimed as a city.<br />The Chernobyl Atomic Power Station reaches its first 10 billion kilowatt-hours of electical output.</MudText>
+                <MudText Align="@Align.Right" Color="Color.Error" Typo="Typo.h6" GutterBottom="true">도약</MudText>
+                <MudText Align="@Align.Right">매출액 522억 달성</MudText>
             </ItemContent>
         </MudTimelineItem>
     </MudTimeline>
@@ -68,9 +83,7 @@
     bool arrows = true;
     bool delimiters = true;
     bool autocycle = true;
-    Color[] bgColor = { Color.Primary, Color.Secondary,Color.Success};
 
-     Transition transition = Transition.Slide;
-
+    Transition transition = Transition.Slide;
     
 }
