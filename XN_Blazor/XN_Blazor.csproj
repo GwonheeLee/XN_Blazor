@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
+    <ProjectReference Include="..\DataShared\DataShared.csproj" />
   </ItemGroup>
 
 </Project>

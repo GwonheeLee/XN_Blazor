@@ -1,7 +1,142 @@
 ﻿@page "/product"
+@using DataShared
 
-<h3>Product</h3>
+<br />
+
+<MudPaper Class="pa-2 ma-1" Outlined="true">
+    <MudTable Items="@Elements" T="@ProductTestData" OnRowClick="@ElementClick" Hover=true Bordered=true  Filter="new Func<ProductTestData,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">상품목록</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>코드</MudTh>
+            <MudTh>상품명</MudTh>
+            <MudTh>타입</MudTh>
+            <MudTh>단위</MudTh>
+            <MudTh>현 재고량</MudTh>
+            <MudTh>안전 재고량</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Code">@context.Code</MudTd>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="Type">@context.Type</MudTd>
+            <MudTd DataLabel="Unit">@context.Unit</MudTd>
+            <MudTd DataLabel="nQty">@context.nQty</MudTd>
+            <MudTd DataLabel="sQty">@context.sQty</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+</MudPaper>
+
+@if(_selectedEl != null)
+{
+    <MudPaper Class="pa-2 ma-1" Outlined="true">
+        <MudGrid>
+            <MudItem xs="12" sm="6" C>
+                <MudForm>
+                    <MudRadioGroup Class="d-flex justify-center" @bind-SelectedOption="@_selectDateOption">
+                        <MudRadio Option="@(DateOption.Day)" Color="Color.Primary">일</MudRadio>
+                        <MudRadio Option="@(DateOption.Week)" Color="Color.Secondary">주</MudRadio>
+                        <MudRadio Option="@(DateOption.Month)" Color="Color.Tertiary">월</MudRadio>
+                    </MudRadioGroup>
+                </MudForm>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                 <MudDateRangePicker @ref="_picker"  Label="조회기간" @bind-DateRange="_dateRange">
+                    <PickerActions>
+                        <MudButton Class="mr-auto align-self-start" OnClick="@(() => _picker.Clear())">Clear</MudButton>
+                        <MudButton OnClick="@(() => _picker.Close(false))">Cancel</MudButton>
+                        <MudButton Color="Color.Primary" OnClick="@(() => _picker.Close())">Ok</MudButton>
+                    </PickerActions>
+                </MudDateRangePicker>
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+    <br />
+    <MudPaper Class="pa-2 ma-1" Outlined="true">
+
+    </MudPaper>
+    <br />
+}
+
 
 @code {
 
+    #region ProductList
+    private string searchString1 = "";
+    private ProductTestData selectedItem1 = null;
+    private List<ProductTestData> Elements = new List<ProductTestData>();
+    private ProductTestData _selectedEl;
+    #endregion
+
+    #region FilterOption
+    private DateOption _selectDateOption { get; set; } = DateOption.Week;
+    
+    private MudDateRangePicker _picker;
+    private DateRange _dateRange = new DateRange();
+    #endregion
+
+    public void ElementClick(TableRowClickEventArgs<ProductTestData> e)
+    {
+        var i = e.Row;
+
+        ProductTestData data = i.Item as ProductTestData;
+        _selectedEl = data;
+
+    }
+    protected override void OnInitialized()
+    {
+        Elements.Add(new ProductTestData()
+            {
+                Code="a1",
+                Name ="반짝이는 타일",
+                Type="type01",
+                Unit = "1Box * 100EA",
+                nQty = 200,
+                sQty =120
+            });
+        Elements.Add(new ProductTestData()
+            {
+                Code="a2",
+                Name ="고급스러운 타일",
+                Type="type02",
+                Unit = "1Box * 100EA",
+                nQty = 200,
+                sQty =120
+            });
+          Elements.Add(new ProductTestData()
+            {
+                Code="a3",
+                Name ="플라스틱 타일",
+                Type="type02",
+                Unit = "1Box * 100EA",
+                nQty = 200,
+                sQty =120
+            });
+          Elements.Add(new ProductTestData()
+            {
+                Code="a4",
+                Name ="무난한 타일",
+                Type="type03",
+                Unit = "1Box * 100EA",
+                nQty = 200,
+                sQty =120
+            });
+        // Elements = await httpClient.GetFromJsonAsync<List<ProductTestData>>("webapi/periodictable");
+    }
+
+    private bool FilterFunc1(ProductTestData element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(ProductTestData element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
 }
