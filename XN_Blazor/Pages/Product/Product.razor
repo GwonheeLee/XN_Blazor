@@ -2,13 +2,12 @@
 @using DataShared
 
 <br />
-
 <MudPaper Class="pa-2 ma-1" Outlined="true">
     <MudTable Items="@Elements" T="@ProductTestData" OnRowClick="@ElementClick" Hover=true Bordered=true  Filter="new Func<ProductTestData,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
         <ToolBarContent>
             <MudText Typo="Typo.h6">상품목록</MudText>
             <MudSpacer />
-            <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small" Class="mt-2"></MudTextField>
         </ToolBarContent>
         <HeaderContent>
             <MudTh>코드</MudTh>
@@ -32,53 +31,45 @@
     </MudTable>
 </MudPaper>
 
-@if(_selectedEl != null)
+@if(_showToggle)
 {
-    <MudPaper Class="pa-2 ma-1" Outlined="true">
-        <MudGrid>
-            <MudItem xs="12" sm="6" C>
-                <MudForm>
-                    <MudRadioGroup Class="d-flex justify-center" @bind-SelectedOption="@_selectDateOption">
-                        <MudRadio Option="@(DateOption.Day)" Color="Color.Primary">일</MudRadio>
-                        <MudRadio Option="@(DateOption.Week)" Color="Color.Secondary">주</MudRadio>
-                        <MudRadio Option="@(DateOption.Month)" Color="Color.Tertiary">월</MudRadio>
-                    </MudRadioGroup>
-                </MudForm>
-            </MudItem>
-            <MudItem xs="12" sm="6">
-                 <MudDateRangePicker @ref="_picker"  Label="조회기간" @bind-DateRange="_dateRange">
-                    <PickerActions>
-                        <MudButton Class="mr-auto align-self-start" OnClick="@(() => _picker.Clear())">Clear</MudButton>
-                        <MudButton OnClick="@(() => _picker.Close(false))">Cancel</MudButton>
-                        <MudButton Color="Color.Primary" OnClick="@(() => _picker.Close())">Ok</MudButton>
-                    </PickerActions>
-                </MudDateRangePicker>
-            </MudItem>
-        </MudGrid>
-    </MudPaper>
-    <br />
-    <MudPaper Class="pa-2 ma-1" Outlined="true">
-
-    </MudPaper>
-    <br />
+    
 }
+<MudGrid>
+    <MudItem xs="12" sm="6">
+        <MudDateRangePicker MaxDate="@_maxDate" @ref="_picker" Label="With action buttons" 
+        @bind-DateRange="@_dateRange" DateRangeChanged="@ChanagedDateRange">
+            <PickerActions>
+                <MudButton Class="mr-auto align-self-start" OnClick="@(() => _picker.Clear())">Clear</MudButton>
+                <MudButton OnClick="@(() => _picker.Close(false))">Cancel</MudButton>
+                <MudButton Color="Color.Primary" OnClick="@(() => _picker.Close())">Ok</MudButton>
+            </PickerActions>
+        </MudDateRangePicker>
+    </MudItem>
+</MudGrid>
 
+<div style="height:1000px"></div>
 
 @code {
 
-    #region ProductList
-    private string searchString1 = "";
-    private ProductTestData selectedItem1 = null;
-    private List<ProductTestData> Elements = new List<ProductTestData>();
-    private ProductTestData _selectedEl;
-    #endregion
+    //ProductList
+    string searchString1 = "";
+    ProductTestData selectedItem1 = null;
+    List<ProductTestData> Elements = new List<ProductTestData>();
+    ProductTestData _selectedEl;
 
-    #region FilterOption
-    private DateOption _selectDateOption { get; set; } = DateOption.Week;
-    
-    private MudDateRangePicker _picker;
-    private DateRange _dateRange = new DateRange();
-    #endregion
+    //ShowToggle
+    bool _showToggle;
+
+    //Date
+    MudDateRangePicker _picker;
+    DateRange _dateRange;
+    DateTime _maxDate;
+
+    void ChanagedDateRange(DateRange dr)
+    {
+        
+    }
 
     public void ElementClick(TableRowClickEventArgs<ProductTestData> e)
     {
@@ -86,10 +77,12 @@
 
         ProductTestData data = i.Item as ProductTestData;
         _selectedEl = data;
-
     }
+
     protected override void OnInitialized()
     {
+        _dateRange = new DateRange(DateTime.Now.AddMonths(-1).Date, DateTime.Now.Date);
+        _maxDate = DateTime.Now.Date;
         Elements.Add(new ProductTestData()
             {
                 Code="a1",
