@@ -8,15 +8,15 @@ namespace XN_Blazor.Data
         Month,
         Year
     }
-    public static class DateRangeOption
+    public static class BarChartDAC
     {
-       public static string[] GetWeekDays(DateTime dateTime)
+        public static string[] GetChartX(DateTime start, DateTime end)
         {
-            string[] days = new string[7];
+            string[] days = new string[(end - start).Days];
 
-            for(int i = 0; i < days.Length; i++)
+            for (int i = 0; i < days.Length; i++)
             {
-                days[i] = dateTime.AddDays(i).Day.ToString()+"일";
+                days[i] = start.AddDays(i).Day.ToString() + "일";
             }
             return days;
         }

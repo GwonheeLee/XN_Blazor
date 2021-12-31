@@ -31,22 +31,21 @@
     </MudTable>
 </MudPaper>
 
-@if(_showToggle)
-{
-    
-}
-<MudGrid>
-    <MudItem xs="12" sm="6">
-        <MudDateRangePicker MaxDate="@_maxDate" @ref="_picker" Label="With action buttons" 
-        @bind-DateRange="@_dateRange" DateRangeChanged="@ChanagedDateRange">
-            <PickerActions>
-                <MudButton Class="mr-auto align-self-start" OnClick="@(() => _picker.Clear())">Clear</MudButton>
-                <MudButton OnClick="@(() => _picker.Close(false))">Cancel</MudButton>
-                <MudButton Color="Color.Primary" OnClick="@(() => _picker.Close())">Ok</MudButton>
-            </PickerActions>
-        </MudDateRangePicker>
-    </MudItem>
-</MudGrid>
+<MudItem xs="12" sm="6" md="4">
+        <MudDatePicker Label="Date Format" @bind-Date="@_startDate" 
+        HelperText="For custom cultures" DateFormat="yyyy/MM/dd" MaxDate="@DateTime.Now"/>
+</MudItem>
+
+<MudItem xs="12" sm="6" md="4">
+        <MudDatePicker Label="Date Format" DateChanged="@SelectDateRange"  
+        HelperText="For custom cultures" DateFormat="yyyy/MM/dd" MaxDate="@MaxDate" MinDate="@_startDate.Value.AddDays(1)"/>
+</MudItem>
+
+
+<div class="d-block pa-2">
+    <MudChart ChartType="ChartType.Bar" ChartSeries="@Series" XAxisLabels="@_chartX" Width="100%" Height="350px"></MudChart>
+</div>
+
 
 <div style="height:1000px"></div>
 
@@ -62,14 +61,33 @@
     bool _showToggle;
 
     //Date
-    MudDateRangePicker _picker;
-    DateRange _dateRange;
-    DateTime _maxDate;
-
-    void ChanagedDateRange(DateRange dr)
+    DateTime? _startDate;
+    DateTime? _endDate;
+    DateTime MaxDate
     {
-        
+        get
+        {
+            DateTime tempDate = _startDate.Value.AddMonths(1);
+            return tempDate > DateTime.Now ? DateTime.Now.AddDays(1) : tempDate.AddDays(1);
+        }
     }
+
+    void SelectDateRange(DateTime? dt)
+    {
+        _endDate = dt;
+        _chartX = BarChartDAC.GetChartX(_startDate.Value, _endDate.Value);
+    }
+
+    //Chart
+
+    public List<ChartSeries> Series = new List<ChartSeries>() // ChartData
+    {
+        new ChartSeries() { Name = "United States", Data = new double[] { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 } }
+    };
+    public string[] _chartX;
+
+
+
 
     public void ElementClick(TableRowClickEventArgs<ProductTestData> e)
     {
@@ -81,8 +99,8 @@
 
     protected override void OnInitialized()
     {
-        _dateRange = new DateRange(DateTime.Now.AddMonths(-1).Date, DateTime.Now.Date);
-        _maxDate = DateTime.Now.Date;
+        _startDate = DateTime.Now.AddDays(-7);
+        _chartX = BarChartDAC.GetChartX(_startDate.Value, DateTime.Now);
         Elements.Add(new ProductTestData()
             {
                 Code="a1",
