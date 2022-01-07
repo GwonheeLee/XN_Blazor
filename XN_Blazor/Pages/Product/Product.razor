@@ -1,78 +1,91 @@
 ﻿@page "/product"
 @using DataShared
 
+@inject ItemService ItemService
 <br />
-<MudPaper Class="pa-2 ma-1" Outlined="true" id="mainPosition">
-    <MudTable Items="@Elements" T="@ProductTestData" OnRowClick="@ElementClick" Hover=true Bordered=true  Filter="new Func<ProductTestData,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
-        <ToolBarContent>
-            <MudText Typo="Typo.h6">상품목록</MudText>
-            <MudSpacer />
-            <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small" Class="mt-2"></MudTextField>
-        </ToolBarContent>
-        <HeaderContent>
-            <MudTh>코드</MudTh>
-            <MudTh>상품명</MudTh>
-            <MudTh>타입</MudTh>
-            <MudTh>단위</MudTh>
-            <MudTh>현 재고량</MudTh>
-            <MudTh>안전 재고량</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="Code">@context.Code</MudTd>
-            <MudTd DataLabel="Name">@context.Name</MudTd>
-            <MudTd DataLabel="Type">@context.Type</MudTd>
-            <MudTd DataLabel="Unit">@context.Unit</MudTd>
-            <MudTd DataLabel="nQty">@context.nQty</MudTd>
-            <MudTd DataLabel="sQty">@context.sQty</MudTd>
-        </RowTemplate>
-        <PagerContent>
-            <MudTablePager />
-        </PagerContent>
-    </MudTable>
-</MudPaper>
 
-@if(ShowToggle)
+@if(Items==null)
 {
-    <MudPaper Class="pa-2 ma-1"  Square="true">
-        <MudGrid>
-            <MudItem xs="6" sm="6" md="6" lg="6">
-                <MudDatePicker Label="조회기간" @bind-Date="@_startDate" 
-                HelperText="Start Date" DateFormat="yyyy/MM/dd" MaxDate="@DateTime.Now"/>
-            </MudItem>
-
-            <MudItem xs="6" sm="6" md="6" lg="6">
-                <MudDatePicker DateChanged="@SelectDateRange"  
-                HelperText="End Date" DateFormat="yyyy/MM/dd" MaxDate="@MaxDate" MinDate="@_startDate.Value.AddDays(1)"/>
-            </MudItem>
-        </MudGrid>
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <MudPaper Class="pa-2 ma-1" Outlined="true">
+        <MudTable Items="@Items" T="@Item" OnRowClick="@ItemsClick" Hover=true Bordered=true  Filter="new Func<Item,bool>(FilterFunc1)">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">상품목록</MudText>
+                <MudSpacer />
+                <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small" Class="mt-2"></MudTextField>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh>코드</MudTh>
+                <MudTh>상품명</MudTh>
+                <MudTh>타입</MudTh>
+                <MudTh>단위</MudTh>
+                <MudTh>시간당 생산량</MudTh>
+                <MudTh>Cavity</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Item_Code">@context.Item_Code</MudTd>
+                <MudTd DataLabel="Item_Name">@context.Item_Name</MudTd>
+                <MudTd DataLabel="Item_Type">@context.Item_Type</MudTd>
+                <MudTd DataLabel="Item_Unit">@context.Item_Unit</MudTd>
+                <MudTd DataLabel="PrdQty_Per_Hour">@context.PrdQty_Per_Hour</MudTd>
+                <MudTd DataLabel="Cavity_qty">@context.Cavity_qty</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
     </MudPaper>
-    @if (ShowChartToggle)
+
+    @if(ShowToggle)
     {
-
-
-        <MudPaper Class="pa-2 ma-2" Square="true">
+        <MudPaper Class="pa-2 ma-1"  Square="true">
             <MudGrid>
-                <MudItem xs="12" sm="4" md="4" lg="4">
-                    <MudChart ChartType="ChartType.Pie"  InputData="@_pieChartData"  InputLabels="@_labels" Width="100%" Height="350px" />
+                <MudItem xs="6" sm="6" md="6" lg="6">
+                    <MudDatePicker Label="조회기간" @bind-Date="@_startDate" 
+                    HelperText="Start Date" DateFormat="yyyy/MM/dd" MaxDate="@DateTime.Now"/>
                 </MudItem>
 
-                <MudItem xs="12" sm="8" md="8" lg="8">
-                    <MudChart ChartType="ChartType.Bar" ChartSeries="@Series" XAxisLabels="@_chartX" Width="100%" Height="350px"></MudChart>
+                <MudItem xs="6" sm="6" md="6" lg="6">
+                    <MudDatePicker DateChanged="@SelectDateRange"  
+                    HelperText="End Date" DateFormat="yyyy/MM/dd" MaxDate="@MaxDate" MinDate="@_startDate.Value.AddDays(1)"/>
                 </MudItem>
             </MudGrid>
         </MudPaper>
+        @if (ShowChartToggle)
+        {
+        
+            <MudPaper Class="pa-2 ma-2" Square="true">
+                <MudGrid>
+                    <MudItem Class="pl-12" xs="12" sm="3" md="3" lg="3">
+                        <MudChart ChartType="ChartType.Pie"  InputData="@_pieChartData"  InputLabels="@_labels" Width="100%" Height="350px" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="9" md="9" lg="9">
+                        <MudChart ChartType="ChartType.Bar" ChartSeries="@Series" XAxisLabels="@_chartX" Width="100%" Height="350px"></MudChart>
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+        }
+
+    <MudScrollToTop>
+        <MudFab Color="Color.Tertiary" Icon="@Icons.Filled.ArrowCircleUp" />
+    </MudScrollToTop>
+        <div style="height:1000px"></div>
     }
-    <div style="height:200px"></div>
 }
+
 @code {
     //ProductList
     string searchString1 = "";
-    ProductTestData selectedItem1 = null;
-    List<ProductTestData> Elements = new List<ProductTestData>();
-    ProductTestData _selectedEl;
+    Item selectedItem1 = null;
+    List<Item> Items;
+    Item _selectedItem;
 
     //ShowToggle
-    bool ShowToggle { get { return _selectedEl != null; } set { ShowToggle = value; } }
+    bool ShowToggle { get { return _selectedItem != null; } set { ShowToggle = value; } }
     bool ShowChartToggle{ get; set; }
     //Date
     DateTime? _startDate;
@@ -107,73 +120,38 @@
     double[] _pieChartData;
     int _selectedIndex = -1;
 
-    public void ElementClick(TableRowClickEventArgs<ProductTestData> e)
+
+    public void ItemsClick(TableRowClickEventArgs<Item> e)
     {
         var i = e.Row;
 
-        ProductTestData data = i.Item as ProductTestData;
-        _selectedEl = data;
+        Item data = i.Item as Item;
+        _selectedItem = data;
+
+        Series = new List<ChartSeries>() //Test Data
+        {
+                new ChartSeries() {Name = _selectedItem.Item_Name,Data=new double[7] }
+        };
+
+
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         _startDate = DateTime.Now.AddDays(-7);
         _chartX = BarChartService.GetChartX(_startDate.Value, DateTime.Now);
         _labels = new string[2];
-        Series = new List<ChartSeries>() //Test Data
-            {
 
-                new ChartSeries() {Name = "타일",Data=new double[7] }
-            };
-
-       
-
-        Elements.Add(new ProductTestData()
-            {
-                Code="a1",
-                Name ="반짝이는 타일",
-                Type="type01",
-                Unit = "1Box * 100EA",
-                nQty = 200,
-                sQty =120
-            });
-        Elements.Add(new ProductTestData()
-            {
-                Code="a2",
-                Name ="고급스러운 타일",
-                Type="type02",
-                Unit = "1Box * 100EA",
-                nQty = 200,
-                sQty =120
-            });
-          Elements.Add(new ProductTestData()
-            {
-                Code="a3",
-                Name ="플라스틱 타일",
-                Type="type02",
-                Unit = "1Box * 100EA",
-                nQty = 200,
-                sQty =120
-            });
-          Elements.Add(new ProductTestData()
-            {
-                Code="a4",
-                Name ="무난한 타일",
-                Type="type03",
-                Unit = "1Box * 100EA",
-                nQty = 200,
-                sQty =120
-            });
-        // Elements = await httpClient.GetFromJsonAsync<List<ProductTestData>>("webapi/periodictable");
+        Items = await ItemService.GetItemsAsync();
     }
 
-    private bool FilterFunc1(ProductTestData element) => FilterFunc(element, searchString1);
+    private bool FilterFunc1(Item element) => FilterFunc(element, searchString1);
 
-    private bool FilterFunc(ProductTestData element, string searchString)
+    private bool FilterFunc(Item element, string searchString)
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-        if (element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.Item_Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
     }

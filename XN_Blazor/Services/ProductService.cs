@@ -1,4 +1,9 @@
-﻿using System;
+﻿using DataShared;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace XN_Blazor.Services
 {
@@ -49,6 +54,26 @@ namespace XN_Blazor.Services
         }
     }
 
+    public class ItemService
+    {
+        HttpClient _httpClient;
+        public ItemService(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+        public async Task<List<Item>> GetItemsAsync()
+        {
+            var results = await _httpClient.GetAsync("api/item");
 
+            if (results.IsSuccessStatusCode == false)
+            {
+                throw new Exception("GetItems Falied");
+            }
+            var resultContent = await results.Content.ReadAsStringAsync();
+
+            List<Item> resGameResults = JsonConvert.DeserializeObject<List<Item>>(resultContent);
+            return resGameResults;
+        }
+    }
 
 }
