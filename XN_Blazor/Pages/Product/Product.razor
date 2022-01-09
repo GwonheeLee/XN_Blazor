@@ -25,13 +25,13 @@ else
                 <MudTh>시간당 생산량</MudTh>
                 <MudTh>Cavity</MudTh>
             </HeaderContent>
-            <RowTemplate>
-                <MudTd DataLabel="Item_Code">@context.Item_Code</MudTd>
-                <MudTd DataLabel="Item_Name">@context.Item_Name</MudTd>
-                <MudTd DataLabel="Item_Type">@context.Item_Type</MudTd>
-                <MudTd DataLabel="Item_Unit">@context.Item_Unit</MudTd>
-                <MudTd DataLabel="PrdQty_Per_Hour">@context.PrdQty_Per_Hour</MudTd>
-                <MudTd DataLabel="Cavity_qty">@context.Cavity_qty</MudTd>
+            <RowTemplate Context="Item"  >
+                <MudTd DataLabel="Item_Code">@Item.Item_Code</MudTd>
+                <MudTd DataLabel="Item_Name">@Item.Item_Name</MudTd>
+                <MudTd DataLabel="Item_Type">@Item.Item_Type</MudTd>
+                <MudTd DataLabel="Item_Unit">@Item.Item_Unit</MudTd>
+                <MudTd DataLabel="PrdQty_Per_Hour">@Item.PrdQty_Per_Hour</MudTd>
+                <MudTd DataLabel="Cavity_qty">@Item.Cavity_qty</MudTd>
             </RowTemplate>
             <PagerContent>
                 <MudTablePager />

@@ -9,12 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\Img\tile1.jpg" />
-    <None Include="wwwroot\Img\tile2.jpg" />
-    <None Include="wwwroot\Img\tile3.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="MudBlazor" Version="5.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>

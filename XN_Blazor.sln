@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XN_Blazor", "XN_Blazor\XN_B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataShared", "DataShared\DataShared.csproj", "{2B5F7745-BBE1-41EC-A594-E025A05EF59B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XN_WepAPI", "XN_WepAPI\XN_WepAPI.csproj", "{61639F58-94FD-4D00-B4F3-D3C4B2A45CE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XN_WepAPI", "XN_WepAPI\XN_WepAPI.csproj", "{61639F58-94FD-4D00-B4F3-D3C4B2A45CE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
