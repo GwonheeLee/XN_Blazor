@@ -28,5 +28,13 @@ namespace XN_WepAPI.Controllers
             return items;
 
         }
+        [HttpPost("defect")]
+        public Bad_Good GetDefectData([FromBody]Bad_Good input)
+		{
+            ItemDAC dac = new ItemDAC(_configuration.GetConnectionString("Team5"));
+            Bad_Good result = dac.GetDefactData(input);
+
+            return result;
+        }
     }
 }

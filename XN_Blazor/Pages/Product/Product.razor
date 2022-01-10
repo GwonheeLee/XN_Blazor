@@ -4,155 +4,169 @@
 @inject ItemService ItemService
 <br />
 
-@if(Items==null)
+@if (Items == null)
 {
-    <p><em>Loading...</em></p>
+	<p><em>Loading...</em></p>
 }
 else
 {
-    <MudPaper Class="pa-2 ma-1" Outlined="true">
-        <MudTable Items="@Items" T="@Item" OnRowClick="@ItemsClick" Hover=true Bordered=true  Filter="new Func<Item,bool>(FilterFunc1)">
-            <ToolBarContent>
-                <MudText Typo="Typo.h6">상품목록</MudText>
-                <MudSpacer />
-                <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small" Class="mt-2"></MudTextField>
-            </ToolBarContent>
-            <HeaderContent>
-                <MudTh>코드</MudTh>
-                <MudTh>상품명</MudTh>
-                <MudTh>타입</MudTh>
-                <MudTh>단위</MudTh>
-                <MudTh>시간당 생산량</MudTh>
-                <MudTh>Cavity</MudTh>
-            </HeaderContent>
-            <RowTemplate Context="Item"  >
-                <MudTd DataLabel="Item_Code">@Item.Item_Code</MudTd>
-                <MudTd DataLabel="Item_Name">@Item.Item_Name</MudTd>
-                <MudTd DataLabel="Item_Type">@Item.Item_Type</MudTd>
-                <MudTd DataLabel="Item_Unit">@Item.Item_Unit</MudTd>
-                <MudTd DataLabel="PrdQty_Per_Hour">@Item.PrdQty_Per_Hour</MudTd>
-                <MudTd DataLabel="Cavity_qty">@Item.Cavity_qty</MudTd>
-            </RowTemplate>
-            <PagerContent>
-                <MudTablePager />
-            </PagerContent>
-        </MudTable>
-    </MudPaper>
+	<MudPaper Class="pa-2 ma-1" Outlined="true">
+		<MudTable Items="@Items" T="@Item" OnRowClick="@ItemsClick" Hover=true Bordered=true Filter="new Func<Item,bool>(FilterFunc1)">
+			<ToolBarContent>
+				<MudText Typo="Typo.h6">상품목록</MudText>
+				<MudSpacer />
+				<MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small" Class="mt-2"></MudTextField>
+			</ToolBarContent>
+			<HeaderContent>
+				<MudTh>코드</MudTh>
+				<MudTh>상품명</MudTh>
+				<MudTh>타입</MudTh>
+				<MudTh>단위</MudTh>
+				<MudTh>시간당 생산량</MudTh>
+				<MudTh>Cavity</MudTh>
+			</HeaderContent>
+			<RowTemplate Context="Item">
+				<MudTd DataLabel="Item_Code">@Item.Item_Code</MudTd>
+				<MudTd DataLabel="Item_Name">@Item.Item_Name</MudTd>
+				<MudTd DataLabel="Item_Type">@Item.Item_Type</MudTd>
+				<MudTd DataLabel="Item_Unit">@Item.Item_Unit</MudTd>
+				<MudTd DataLabel="PrdQty_Per_Hour">@Item.PrdQty_Per_Hour</MudTd>
+				<MudTd DataLabel="Cavity_qty">@Item.Cavity_qty</MudTd>
+			</RowTemplate>
+			<PagerContent>
+				<MudTablePager />
+			</PagerContent>
+		</MudTable>
+	</MudPaper>
 
-    @if(ShowToggle)
-    {
-        <MudPaper Class="pa-2 ma-1"  Square="true">
-            <MudGrid>
-                <MudItem xs="6" sm="6" md="6" lg="6">
-                    <MudDatePicker Label="조회기간" @bind-Date="@_startDate" 
-                    HelperText="Start Date" DateFormat="yyyy/MM/dd" MaxDate="@DateTime.Now"/>
-                </MudItem>
+	@if (ShowToggle)
+	{
+		<MudPaper Class="pa-2 ma-1" Square="true">
+			<MudGrid>
+				<MudItem xs="6" sm="6" md="6" lg="6">
+					<MudDatePicker Label="조회기간" @bind-Date="@_startDate"
+						   HelperText="Start Date" DateFormat="yyyy/MM/dd" MaxDate="@DateTime.Now" />
+				</MudItem>
 
-                <MudItem xs="6" sm="6" md="6" lg="6">
-                    <MudDatePicker DateChanged="@SelectDateRange"  
-                    HelperText="End Date" DateFormat="yyyy/MM/dd" MaxDate="@MaxDate" MinDate="@_startDate.Value.AddDays(1)"/>
-                </MudItem>
-            </MudGrid>
-        </MudPaper>
-        @if (ShowChartToggle)
-        {
-        
-            <MudPaper Class="pa-2 ma-2" Square="true">
-                <MudGrid>
-                    <MudItem Class="pl-12" xs="12" sm="3" md="3" lg="3">
-                        <MudChart ChartType="ChartType.Pie"  InputData="@_pieChartData"  InputLabels="@_labels" Width="100%" Height="350px" />
-                    </MudItem>
+				<MudItem xs="6" sm="6" md="6" lg="6">
+					<MudDatePicker DateChanged="@SelectDateRange"
+						   HelperText="End Date" DateFormat="yyyy/MM/dd" MaxDate="@MaxDate" MinDate="@_startDate.Value.AddDays(1)" />
+				</MudItem>
+			</MudGrid>
+		</MudPaper>
+		@if (ShowChartToggle)
+		{
 
-                    <MudItem xs="12" sm="9" md="9" lg="9">
-                        <MudChart ChartType="ChartType.Bar" ChartSeries="@Series" XAxisLabels="@_chartX" Width="100%" Height="350px"></MudChart>
-                    </MudItem>
-                </MudGrid>
-            </MudPaper>
-        }
+			<MudPaper Class="pa-2 ma-2" Square="true">
+				<MudGrid>
+					<MudItem Class="pl-12" xs="12" sm="3" md="3" lg="3">
+						<MudChart ChartType="ChartType.Pie" InputData="@_pieChartData" InputLabels="@_labels" Width="100%" Height="350px" />
+					</MudItem>
 
-    <MudScrollToTop>
-        <MudFab Color="Color.Tertiary" Icon="@Icons.Filled.ArrowCircleUp" />
-    </MudScrollToTop>
-        <div style="height:1000px"></div>
-    }
+					<MudItem xs="12" sm="9" md="9" lg="9">
+						<MudChart ChartType="ChartType.Bar" ChartSeries="@Series" XAxisLabels="@_chartX" Width="100%" Height="350px"></MudChart>
+					</MudItem>
+				</MudGrid>
+			</MudPaper>
+		}
+
+		<MudScrollToTop>
+			<MudFab Color="Color.Tertiary" Icon="@Icons.Filled.ArrowCircleUp" />
+		</MudScrollToTop>
+		<div style="height:1000px"></div>
+	}
 }
 
 @code {
-    //ProductList
-    string searchString1 = "";
-    Item selectedItem1 = null;
-    List<Item> Items;
-    Item _selectedItem;
+	//ProductList
+	string searchString1 = "";
+	Item selectedItem1 = null;
+	List<Item> Items;
+	Item _selectedItem;
 
-    //ShowToggle
-    bool ShowToggle { get { return _selectedItem != null; } set { ShowToggle = value; } }
-    bool ShowChartToggle{ get; set; }
-    //Date
-    DateTime? _startDate;
-    DateTime? _endDate ;
-    DateTime MaxDate
-    {
-        get
+	//ShowToggle
+	bool ShowToggle { get { return _selectedItem != null; } set { ShowToggle = value; } }
+	bool ShowChartToggle { get; set; }
+	//Date
+	DateTime? _startDate;
+	DateTime? _endDate;
+	DateTime MaxDate
+	{
+		get
+		{
+			DateTime tempDate = _startDate.Value.AddMonths(1);
+			return tempDate > DateTime.Now ? DateTime.Now.AddDays(1) : tempDate.AddDays(1);
+		}
+	}
+
+	async void SelectDateRange(DateTime? dt)
+	{
+		ShowChartToggle = true;
+		_endDate = dt;
+		_chartX = BarChartService.GetChartX(_startDate.Value, _endDate.Value);
+		Series[0].Data = BarChartService.GetSeriesData(_chartX.Length);
+
+		await GetDefectData();
+		StateHasChanged();
+	}
+	async Task GetDefectData()
+	{
+		var defectParam = new Bad_Good()
+			{
+				Item_Code = _selectedItem.Item_Code,
+				DateStart = _startDate.Value.ToString("yyyy-MM-dd"),
+				DateEnd = _endDate.Value.ToString("yyyy-MM-dd")
+			};
+		Bad_Good result =  await ItemService.GetDefect(defectParam);
+		double[] tempDefuctData = { result.Good_Qty, result.Bad_Qty };
+		_pieChartData = new double[] { result.Good_Qty, result.Bad_Qty };
+		_labels[0] = $"상품 {result.Good_Qty.ToString()}";
+		_labels[1] = $"하품 {result.Bad_Qty.ToString()}";
+	}
+
+	//BarChart
+
+	public List<ChartSeries> Series;
+	public string[] _chartX;
+
+	//PieChart
+	string[] _labels;
+	double[] _pieChartData;
+	int _selectedIndex = -1;
+
+
+	public void ItemsClick(TableRowClickEventArgs<Item> e)
+	{
+		var i = e.Row;
+
+		Item data = i.Item as Item;
+		_selectedItem = data;
+
+		Series = new List<ChartSeries>() //Test Data
         {
-            DateTime tempDate = _startDate.Value.AddMonths(1);
-            return tempDate > DateTime.Now ? DateTime.Now.AddDays(1) : tempDate.AddDays(1);
-        }
-    }
-
-    void SelectDateRange(DateTime? dt)
-    {
-        ShowChartToggle = true;
-        _endDate = dt;
-        _chartX = BarChartService.GetChartX(_startDate.Value, _endDate.Value);
-        Series[0].Data = BarChartService.GetSeriesData(_chartX.Length);
-        _pieChartData = PieChartService.GetDate();
-        _labels[0] = $"상품 {_pieChartData[0].ToString()}%";
-        _labels[1] = $"하품 {_pieChartData[1].ToString()}%";
-    }
-
-    //BarChart
-
-    public List<ChartSeries> Series;
-    public string[] _chartX;
-
-    //PieChart
-    string[] _labels;
-    double[] _pieChartData;
-    int _selectedIndex = -1;
+				new ChartSeries() {Name = _selectedItem.Item_Name,Data=new double[7] }
+		};
 
 
-    public void ItemsClick(TableRowClickEventArgs<Item> e)
-    {
-        var i = e.Row;
+	}
 
-        Item data = i.Item as Item;
-        _selectedItem = data;
+	protected override async Task OnInitializedAsync()
+	{
+		_startDate = DateTime.Now.AddDays(-7);
+		_chartX = BarChartService.GetChartX(_startDate.Value, DateTime.Now);
+		_labels = new string[2];
 
-        Series = new List<ChartSeries>() //Test Data
-        {
-                new ChartSeries() {Name = _selectedItem.Item_Name,Data=new double[7] }
-        };
+		Items = await ItemService.GetItemsAsync();
+	}
 
+	private bool FilterFunc1(Item element) => FilterFunc(element, searchString1);
 
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        _startDate = DateTime.Now.AddDays(-7);
-        _chartX = BarChartService.GetChartX(_startDate.Value, DateTime.Now);
-        _labels = new string[2];
-
-        Items = await ItemService.GetItemsAsync();
-    }
-
-    private bool FilterFunc1(Item element) => FilterFunc(element, searchString1);
-
-    private bool FilterFunc(Item element, string searchString)
-    {
-        if (string.IsNullOrWhiteSpace(searchString))
-            return true;
-        if (element.Item_Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        return false;
-    }
+	private bool FilterFunc(Item element, string searchString)
+	{
+		if (string.IsNullOrWhiteSpace(searchString))
+			return true;
+		if (element.Item_Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+			return true;
+		return false;
+	}
 }

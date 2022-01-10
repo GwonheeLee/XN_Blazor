@@ -15,4 +15,14 @@ namespace DataShared
         public decimal PrdQty_Per_Hour { get; set; }
         public int Cavity_qty { get; set; }
     }
+
+    public class Bad_Good
+	{
+        public string Item_Code { get; set; }
+        public string DateStart { get; set; }
+        public string DateEnd { get; set; }
+        public int Bad_Qty { get; set; }
+        public int Good_Qty { get; set; }
+        public bool IsSuccess { get; set; }
+	}
 }

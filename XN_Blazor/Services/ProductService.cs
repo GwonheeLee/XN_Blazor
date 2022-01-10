@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Mime;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace XN_Blazor.Services
@@ -61,7 +63,7 @@ namespace XN_Blazor.Services
         {
             _httpClient = httpClient;
         }
-        public async Task<List<Item>> GetItemsAsync()
+        public async Task<List<Item>> GetItemsAsync() 
         {
             var results = await _httpClient.GetAsync("api/item");
 
@@ -73,6 +75,21 @@ namespace XN_Blazor.Services
 
             List<Item> resGameResults = JsonConvert.DeserializeObject<List<Item>>(resultContent);
             return resGameResults;
+        }
+        public async Task<Bad_Good> GetDefect(Bad_Good input)
+		{
+            string jsonStr = JsonConvert.SerializeObject(input);
+            StringContent content = new StringContent(jsonStr,Encoding.UTF8,MediaTypeNames.Application.Json);
+
+            var result = await _httpClient.PostAsync("api/item/defect",content);
+
+            if (result.IsSuccessStatusCode == false)
+                throw new Exception("Fail GetDefect");
+
+            var resultContent = await result.Content.ReadAsStringAsync();
+            var resBad_Good = JsonConvert.DeserializeObject<Bad_Good>(resultContent);
+
+            return resBad_Good;
         }
     }
 
