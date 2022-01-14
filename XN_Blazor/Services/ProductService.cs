@@ -77,11 +77,11 @@ namespace XN_Blazor.Services
             return resGameResults;
         }
         public async Task<Bad_Good> GetDefect(Bad_Good input)
-		{
+        {
             string jsonStr = JsonConvert.SerializeObject(input);
-            StringContent content = new StringContent(jsonStr,Encoding.UTF8,MediaTypeNames.Application.Json);
+            StringContent content = new StringContent(jsonStr, Encoding.UTF8, MediaTypeNames.Application.Json);
 
-            var result = await _httpClient.PostAsync("api/item/defect",content);
+            var result = await _httpClient.PostAsync("api/item/defect", content);
 
             if (result.IsSuccessStatusCode == false)
                 throw new Exception("Fail GetDefect");
@@ -90,6 +90,21 @@ namespace XN_Blazor.Services
             var resBad_Good = JsonConvert.DeserializeObject<Bad_Good>(resultContent);
 
             return resBad_Good;
+        }
+        public async Task<double[]> GetItemQty(ItemQty input)
+        {
+            string jsonStr = JsonConvert.SerializeObject(input);
+            StringContent content = new StringContent(jsonStr, Encoding.UTF8, MediaTypeNames.Application.Json);
+
+            var result = await _httpClient.PostAsync("api/item/itemQty",content);
+
+            if (result.IsSuccessStatusCode == false)
+                throw new Exception("Fail GetItemQty");
+
+            var resultContent = await result.Content.ReadAsStringAsync();
+            var resItemQty = JsonConvert.DeserializeObject<double[]>(resultContent);
+
+            return resItemQty;
         }
     }
 

@@ -5,6 +5,7 @@ using DataShared;
 using System.Collections.Generic;
 using XN_WepAPI.DAC;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace XN_WepAPI.Controllers
 {
@@ -33,6 +34,14 @@ namespace XN_WepAPI.Controllers
 		{
             ItemDAC dac = new ItemDAC(_configuration.GetConnectionString("Team5"));
             Bad_Good result = dac.GetDefactData(input);
+
+            return result;
+        }
+        [HttpPost("itemQty")]
+        public double[] GetQty([FromBody]ItemQty input )
+        {
+            ItemDAC dac = new ItemDAC(_configuration.GetConnectionString("Team5"));
+            double[] result = dac.GetQty(input);
 
             return result;
         }

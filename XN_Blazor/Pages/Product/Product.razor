@@ -13,13 +13,13 @@ else
 	<MudPaper Class="pa-2 ma-1" Outlined="true">
 		<MudTable Items="@Items" T="@Item" OnRowClick="@ItemsClick" Hover=true Bordered=true Filter="new Func<Item,bool>(FilterFunc1)">
 			<ToolBarContent>
-				<MudText Typo="Typo.h6">상품목록</MudText>
+				<MudText Typo="Typo.h6">제품목록</MudText>
 				<MudSpacer />
 				<MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small" Class="mt-2"></MudTextField>
 			</ToolBarContent>
 			<HeaderContent>
 				<MudTh>코드</MudTh>
-				<MudTh>상품명</MudTh>
+				<MudTh>제품명</MudTh>
 				<MudTh>타입</MudTh>
 				<MudTh>단위</MudTh>
 				<MudTh>시간당 생산량</MudTh>
@@ -44,12 +44,12 @@ else
 		<MudPaper Class="pa-2 ma-1" Square="true">
 			<MudGrid>
 				<MudItem xs="6" sm="6" md="6" lg="6">
-					<MudDatePicker Label="조회기간" @bind-Date="@_startDate"
+					<MudDatePicker Label="From Date" DateChanged="@SelectDateStart"
 						   HelperText="Start Date" DateFormat="yyyy/MM/dd" MaxDate="@DateTime.Now" />
 				</MudItem>
 
 				<MudItem xs="6" sm="6" md="6" lg="6">
-					<MudDatePicker DateChanged="@SelectDateRange"
+					<MudDatePicker Label="End Date" DateChanged="@SelectDateEnd"
 						   HelperText="End Date" DateFormat="yyyy/MM/dd" MaxDate="@MaxDate" MinDate="@_startDate.Value.AddDays(1)" />
 				</MudItem>
 			</MudGrid>
@@ -59,11 +59,11 @@ else
 
 			<MudPaper Class="pa-2 ma-2" Square="true">
 				<MudGrid>
-					<MudItem Class="pl-12" xs="12" sm="3" md="3" lg="3">
+					<MudItem Class="pl-12" xs="12" sm="12" md="6" lg="3">
 						<MudChart ChartType="ChartType.Pie" InputData="@_pieChartData" InputLabels="@_labels" Width="100%" Height="350px" />
 					</MudItem>
 
-					<MudItem xs="12" sm="9" md="9" lg="9">
+					<MudItem xs="12" sm="12" md="6" lg="9">
 						<MudChart ChartType="ChartType.Bar" ChartSeries="@Series" XAxisLabels="@_chartX" Width="100%" Height="350px"></MudChart>
 					</MudItem>
 				</MudGrid>
@@ -73,7 +73,7 @@ else
 		<MudScrollToTop>
 			<MudFab Color="Color.Tertiary" Icon="@Icons.Filled.ArrowCircleUp" />
 		</MudScrollToTop>
-		<div style="height:1000px"></div>
+		<div style="height:200px"></div>
 	}
 }
 
@@ -98,18 +98,25 @@ else
 			return tempDate > DateTime.Now ? DateTime.Now.AddDays(1) : tempDate.AddDays(1);
 		}
 	}
+	void SelectDateStart(DateTime? dt)
+	{
+		_startDate = dt;
+		StateHasChanged();
+	}
 
-	async void SelectDateRange(DateTime? dt)
+	async void SelectDateEnd(DateTime? dt)
 	{
 		ShowChartToggle = true;
 		_endDate = dt;
 		_chartX = BarChartService.GetChartX(_startDate.Value, _endDate.Value);
-		Series[0].Data = BarChartService.GetSeriesData(_chartX.Length);
+		//Series[0].Data = BarChartService.GetSeriesData(_chartX.Length);
 
 		await GetDefectData();
+		await GetItemQty();
 		StateHasChanged();
 	}
-	async Task GetDefectData()
+
+	async Task GetDefectData() // 불량율
 	{
 		var defectParam = new Bad_Good()
 			{
@@ -117,13 +124,24 @@ else
 				DateStart = _startDate.Value.ToString("yyyy-MM-dd"),
 				DateEnd = _endDate.Value.ToString("yyyy-MM-dd")
 			};
-		Bad_Good result =  await ItemService.GetDefect(defectParam);
+		Bad_Good result = await ItemService.GetDefect(defectParam);
 		double[] tempDefuctData = { result.Good_Qty, result.Bad_Qty };
 		_pieChartData = new double[] { result.Good_Qty, result.Bad_Qty };
 		_labels[0] = $"상품 {result.Good_Qty.ToString()}";
 		_labels[1] = $"하품 {result.Bad_Qty.ToString()}";
 	}
 
+	async Task GetItemQty()
+	{
+		var itemQtyParam = new ItemQty()
+			{
+				Start = _startDate.Value,
+				End = _endDate.Value,
+				Item_Code = _selectedItem.Item_Code
+			};
+		double[] result = await ItemService.GetItemQty(itemQtyParam);
+		Series[0].Data = result;
+	}
 	//BarChart
 
 	public List<ChartSeries> Series;
@@ -146,13 +164,11 @@ else
         {
 				new ChartSeries() {Name = _selectedItem.Item_Name,Data=new double[7] }
 		};
-
-
 	}
 
 	protected override async Task OnInitializedAsync()
 	{
-		_startDate = DateTime.Now.AddDays(-7);
+		_startDate = DateTime.Now;
 		_chartX = BarChartService.GetChartX(_startDate.Value, DateTime.Now);
 		_labels = new string[2];
 

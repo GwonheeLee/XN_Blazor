@@ -25,4 +25,11 @@ namespace DataShared
         public int Good_Qty { get; set; }
         public bool IsSuccess { get; set; }
 	}
+
+    public class ItemQty
+    {
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+        public string Item_Code { get; set; }
+    }
 }

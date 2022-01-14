@@ -58,5 +58,24 @@ namespace XN_WepAPI.DAC
                 return result;
             }                
 		}
-	}
+        internal double[] GetQty(ItemQty input)
+        {
+            List<double> list = new List<double>();
+            string sql = "[SP_Happier__Marshmello]";
+            
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var result = connection.QuerySingle(sql,
+                    new { Start = input.Start.ToString("yyyy-MM-dd"), End = input.End.ToString("yyyy-MM-dd"), SelectItemCode = input.Item_Code }, commandType: CommandType.StoredProcedure);
+                foreach (KeyValuePair<string, object> rows in result)
+                {
+                    list.Add(Convert.ToDouble(rows.Value));
+
+                }
+            }
+
+            return list.ToArray();
+        }
+
+    }
 }
