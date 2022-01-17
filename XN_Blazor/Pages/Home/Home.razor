@@ -1,11 +1,7 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Http
 
-@*
-    사람 / @Icons.Filled.AccessibilityNew
-    사람 / @Icons.Filled.AssignmentInd
-    스패너 / @Icons.Filled.Construction
-    스패너 / @Icons.Filled.Build
-*@
+
 <br />
 <MudPaper Class="pa-2 ma-1" Outlined="true">
     <MudCarousel TData="object" Style="height:200px;" ShowArrows="@arrows" ShowDelimiters="@delimiters" AutoCycle="@autocycle">
@@ -79,11 +75,11 @@
     </MudTimeline>
 </MudPaper>
 
+
 @code{
     bool arrows = true;
     bool delimiters = true;
     bool autocycle = true;
 
     Transition transition = Transition.Slide;
-    
 }

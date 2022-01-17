@@ -21,8 +21,8 @@ namespace XN_Blazor
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                
                     webBuilder.UseStartup<Startup>();
                 });
+                        
     }
 }

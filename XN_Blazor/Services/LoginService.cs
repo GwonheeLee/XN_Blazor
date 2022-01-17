@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,22 +22,21 @@ namespace XN_Blazor.Services
         {
             _httpClient = httpClient;
         }
-        public async Task<bool> LoginProcess(User input)
+        public async Task<User> LoginProcess(User input)
         {
             string jsonStr = JsonConvert.SerializeObject(input);
-            StringContent content = new StringContent(jsonStr,Encoding.UTF8,MediaTypeNames.Application.Json);
+            StringContent content = new StringContent(jsonStr, Encoding.UTF8, MediaTypeNames.Application.Json);
 
-            var result = await _httpClient.PostAsync("api/login",content);
+            var result = await _httpClient.PostAsync("api/login", content);
             if (result.IsSuccessStatusCode == false)
             {
                 throw new Exception("Fail Login");
             }
             var resultContent = await result.Content.ReadAsStringAsync();
-            bool resBool = JsonConvert.DeserializeObject<bool>(resultContent);
+            User resUser = JsonConvert.DeserializeObject<User>(resultContent);
 
             
-            return true;
+            return resUser;
         }
-
     }
 }

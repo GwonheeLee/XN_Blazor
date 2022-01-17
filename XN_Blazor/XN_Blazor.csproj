@@ -6,6 +6,11 @@
 
   <ItemGroup>
     <Content Remove="Pages\FetchData.razor" />
+    <Content Remove="Pages\Login\Login.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\Login.css" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,8 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using XN_Blazor.Services;
+
 
 namespace XN_Blazor
 {
@@ -34,6 +35,7 @@ namespace XN_Blazor
             services.AddServerSideBlazor();
 
             services.AddMudServices();
+            services.AddHttpClient();
             services.AddHttpClient<ItemService>(c =>
             {
                 c.BaseAddress = new Uri("https://localhost:44318");
@@ -42,6 +44,9 @@ namespace XN_Blazor
             {
                 c.BaseAddress = new Uri("https://localhost:44318");
             });
+            services.AddAuthentication("Cookies").AddCookie();
+            
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +75,7 @@ namespace XN_Blazor
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
+                endpoints.MapControllers();
             });
         }
     }

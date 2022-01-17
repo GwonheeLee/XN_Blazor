@@ -2,85 +2,104 @@
 @using DataShared
 
 @inject ItemService ItemService
+@inject NavigationManager Nav
 <br />
+<AuthorizeView>
+	<NotAuthorized>
 
-@if (Items == null)
-{
-	<p><em>Loading...</em></p>
-}
-else
-{
-	<MudPaper Class="pa-2 ma-1" Outlined="true">
-		<MudTable Items="@Items" T="@Item" OnRowClick="@ItemsClick" Hover=true Bordered=true Filter="new Func<Item,bool>(FilterFunc1)">
-			<ToolBarContent>
-				<MudText Typo="Typo.h6">제품목록</MudText>
-				<MudSpacer />
-				<MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small" Class="mt-2"></MudTextField>
-			</ToolBarContent>
-			<HeaderContent>
-				<MudTh>코드</MudTh>
-				<MudTh>제품명</MudTh>
-				<MudTh>타입</MudTh>
-				<MudTh>단위</MudTh>
-				<MudTh>시간당 생산량</MudTh>
-				<MudTh>Cavity</MudTh>
-			</HeaderContent>
-			<RowTemplate Context="Item">
-				<MudTd DataLabel="Item_Code">@Item.Item_Code</MudTd>
-				<MudTd DataLabel="Item_Name">@Item.Item_Name</MudTd>
-				<MudTd DataLabel="Item_Type">@Item.Item_Type</MudTd>
-				<MudTd DataLabel="Item_Unit">@Item.Item_Unit</MudTd>
-				<MudTd DataLabel="PrdQty_Per_Hour">@Item.PrdQty_Per_Hour</MudTd>
-				<MudTd DataLabel="Cavity_qty">@Item.Cavity_qty</MudTd>
-			</RowTemplate>
-			<PagerContent>
-				<MudTablePager />
-			</PagerContent>
-		</MudTable>
-	</MudPaper>
+		<MudItem Class="d-flex justify-center py-1 px-1 mt-10">
+			<MudAlert Class="width pa-2 mx-2" Style="width:500px" AlertTextPosition="AlertTextPosition.Center" Severity="Severity.Error">권한이 없습니다</MudAlert>
+		</MudItem>
 
-	@if (ShowToggle)
-	{
-		<MudPaper Class="pa-2 ma-1" Square="true">
-			<MudGrid>
-				<MudItem xs="6" sm="6" md="6" lg="6">
-					<MudDatePicker Label="From Date" DateChanged="@SelectDateStart"
-						   HelperText="Start Date" DateFormat="yyyy/MM/dd" MaxDate="@DateTime.Now" />
-				</MudItem>
+		<MudItem Class="d-flex justify-center py-1 px-1 mt-3">
+			<MudButton Class="pa-2 mx-2" Link="/hi" Variant="Variant.Filled" Color="Color.Secondary">Login</MudButton>
+		</MudItem>
 
-				<MudItem xs="6" sm="6" md="6" lg="6">
-					<MudDatePicker Label="End Date" DateChanged="@SelectDateEnd"
-						   HelperText="End Date" DateFormat="yyyy/MM/dd" MaxDate="@MaxDate" MinDate="@_startDate.Value.AddDays(1)" />
-				</MudItem>
-			</MudGrid>
-		</MudPaper>
-		@if (ShowChartToggle)
+	</NotAuthorized>
+
+	<Authorized>
+
+		@if (Items == null)
 		{
-
-			<MudPaper Class="pa-2 ma-2" Square="true">
-				<MudGrid>
-					<MudItem Class="pl-12" xs="12" sm="12" md="6" lg="3">
-						<MudChart ChartType="ChartType.Pie" InputData="@_pieChartData" InputLabels="@_labels" Width="100%" Height="350px" />
-					</MudItem>
-
-					<MudItem xs="12" sm="12" md="6" lg="9">
-						<MudChart ChartType="ChartType.Bar" ChartSeries="@Series" XAxisLabels="@_chartX" Width="100%" Height="350px"></MudChart>
-					</MudItem>
-				</MudGrid>
-			</MudPaper>
+			<br />
+			<MudProgressLinear Size="Size.Large" Color="Color.Primary" Indeterminate="true" Class="my-7 mt-50 pt-30" />
 		}
+		else
+		{
+			<MudPaper Class="pa-2 ma-1" Outlined="true">
+				<MudTable Items="@Items" T="@Item" OnRowClick="@ItemsClick" Hover=true Bordered=true Filter="new Func<Item,bool>(FilterFunc1)">
+					<ToolBarContent>
+						<MudText Typo="Typo.h6">제품목록</MudText>
+						<MudSpacer />
+						<MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small" Class="mt-2"></MudTextField>
+					</ToolBarContent>
+					<HeaderContent>
+						<MudTh>코드</MudTh>
+						<MudTh>제품명</MudTh>
+						<MudTh>타입</MudTh>
+						<MudTh>단위</MudTh>
+						<MudTh>시간당 생산량</MudTh>
+						<MudTh>Cavity</MudTh>
+					</HeaderContent>
+					<RowTemplate Context="Item">
+						<MudTd DataLabel="Item_Code">@Item.Item_Code</MudTd>
+						<MudTd DataLabel="Item_Name">@Item.Item_Name</MudTd>
+						<MudTd DataLabel="Item_Type">@Item.Item_Type</MudTd>
+						<MudTd DataLabel="Item_Unit">@Item.Item_Unit</MudTd>
+						<MudTd DataLabel="PrdQty_Per_Hour">@Item.PrdQty_Per_Hour</MudTd>
+						<MudTd DataLabel="Cavity_qty">@Item.Cavity_qty</MudTd>
+					</RowTemplate>
+					<PagerContent>
+						<MudTablePager />
+					</PagerContent>
+				</MudTable>
+			</MudPaper>
 
-		<MudScrollToTop>
-			<MudFab Color="Color.Tertiary" Icon="@Icons.Filled.ArrowCircleUp" />
-		</MudScrollToTop>
-		<div style="height:200px"></div>
-	}
-}
+			@if (ShowToggle)
+			{
+				<MudPaper Class="pa-2 ma-1" Square="true">
+					<MudGrid>
+						<MudItem xs="6" sm="6" md="6" lg="6">
+							<MudDatePicker Label="From Date" DateChanged="@SelectDateStart"
+								   HelperText="Start Date" DateFormat="yyyy/MM/dd" MaxDate="@DateTime.Now" />
+						</MudItem>
+
+						<MudItem xs="6" sm="6" md="6" lg="6">
+							<MudDatePicker Label="End Date" DateChanged="@SelectDateEnd"
+								   HelperText="End Date" DateFormat="yyyy/MM/dd" MaxDate="@MaxDate" MinDate="@_startDate.Value.AddDays(1)" />
+						</MudItem>
+					</MudGrid>
+				</MudPaper>
+				@if (ShowChartToggle)
+				{
+
+					<MudPaper Class="pa-2 ma-2" Square="true">
+						<MudGrid>
+							<MudItem Class="pl-12" xs="12" sm="12" md="6" lg="3">
+								<MudChart ChartType="ChartType.Pie" InputData="@_pieChartData" InputLabels="@_labels" Width="100%" Height="350px" />
+							</MudItem>
+
+							<MudItem xs="12" sm="12" md="6" lg="9">
+								<MudChart ChartType="ChartType.Bar" ChartSeries="@Series" XAxisLabels="@_chartX" Width="100%" Height="350px"></MudChart>
+							</MudItem>
+						</MudGrid>
+					</MudPaper>
+				}
+
+				<MudScrollToTop>
+					<MudFab Color="Color.Tertiary" Icon="@Icons.Filled.ArrowCircleUp" />
+				</MudScrollToTop>
+				<div style="height:200px"></div>
+			}
+		}
+	</Authorized>
+</AuthorizeView>
+
 
 @code {
 	//ProductList
 	string searchString1 = "";
-	Item selectedItem1 = null;
+	//Item selectedItem1 = null;
 	List<Item> Items;
 	Item _selectedItem;
 
@@ -164,7 +183,9 @@ else
         {
 				new ChartSeries() {Name = _selectedItem.Item_Name,Data=new double[7] }
 		};
+		ShowChartToggle = false;
 	}
+
 
 	protected override async Task OnInitializedAsync()
 	{
