@@ -28,6 +28,7 @@ namespace XN_Blazor.Services
         public ItemService(HttpClient httpClient)
         {
             _httpClient = httpClient;
+            
         }
         public async Task<List<Item>> GetItemsAsync() 
         {
