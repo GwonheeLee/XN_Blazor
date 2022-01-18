@@ -42,6 +42,7 @@
         {
             loginColor = Color.Success;
             curName = curAuth.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? "";
+            curName = curName == "" ? "" : curName + " 님";
         }
         else
         {
