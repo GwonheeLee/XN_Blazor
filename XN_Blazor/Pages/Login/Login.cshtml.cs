@@ -44,7 +44,8 @@ namespace XN_Blazor.Pages.Login
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(new List<Claim>
                 {
                     new Claim(ClaimTypes.Role,resUser.Customer_Code),
-                    new Claim(ClaimTypes.Actor,"Emp")
+                    new Claim(ClaimTypes.Actor,"Emp"),
+                    new Claim(ClaimTypes.Name,resUser.User_Name)
                 }, "IsEmp");
                 ClaimsPrincipal claims = new ClaimsPrincipal(claimsIdentity);
                 await HttpContext.SignInAsync(claims);

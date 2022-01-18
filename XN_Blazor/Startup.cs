@@ -38,9 +38,11 @@ namespace XN_Blazor
             services.AddMudServices();
 
             //https://localhost:44348
+            //https://xnblazor.azurewebsites.net
             services.AddHttpClient<ItemService>(c =>
             {
                 c.BaseAddress = new Uri("https://xnblazor.azurewebsites.net");
+               
             });
             services.AddHttpClient<LoginService>(c =>
             {
@@ -48,7 +50,7 @@ namespace XN_Blazor
             });
             services.AddAuthentication("Cookies").AddCookie();
 
-            //https://localhost:44348
+      
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
