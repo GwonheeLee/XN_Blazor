@@ -38,11 +38,11 @@ namespace XN_Blazor
             services.AddHttpClient();
             services.AddHttpClient<ItemService>(c =>
             {
-                c.BaseAddress = new Uri("https://localhost:44318");
+                c.BaseAddress = new Uri("https://localhost:44348");
             });
             services.AddHttpClient<LoginService>(c =>
             {
-                c.BaseAddress = new Uri("https://localhost:44318");
+                c.BaseAddress = new Uri("https://localhost:44348");
             });
             services.AddAuthentication("Cookies").AddCookie();
             
