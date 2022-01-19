@@ -1,4 +1,4 @@
-using DataShared;
+ï»¿using DataShared;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -35,7 +35,7 @@ namespace XN_Blazor.Pages.Login
         {
             if (ModelState.IsValid == false)
             {
-                ViewData["ErrorMsg"] = "Àß¸ø ÀÔ·ÂÇÏ¿´½À´Ï´Ù";
+                ViewData["ErrorMsg"] = "ì˜ëª» ì…ë ¥í•˜ì˜€ìŠµë‹ˆë‹¤";
                 return Page();
             }
 
@@ -56,7 +56,7 @@ namespace XN_Blazor.Pages.Login
             }
             else
             {
-                ViewData["ErroMsg"] = "°èÁ¤ÀÌ ¾ø½À´Ï´Ù";
+                ViewData["ErroMsg"] = "ê³„ì •ì´ ì—†ìŠµë‹ˆë‹¤";
                 return Page();
             }
   
