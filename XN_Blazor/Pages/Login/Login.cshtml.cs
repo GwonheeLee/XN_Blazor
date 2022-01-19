@@ -7,6 +7,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using XN_Blazor.Services;
+using System.Text;
+using System;
 
 namespace XN_Blazor.Pages.Login
 {
