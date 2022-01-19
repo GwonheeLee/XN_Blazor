@@ -56,7 +56,7 @@ namespace XN_Blazor.Pages.Login
             }
             else
             {
-                ViewData["ErroMsg"] = "계정이 없습니다";
+                ViewData["ErrorMsg"] = "계정이 없습니다";
                 return Page();
             }
   
