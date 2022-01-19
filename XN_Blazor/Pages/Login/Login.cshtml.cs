@@ -30,6 +30,7 @@ namespace XN_Blazor.Pages.Login
         }
         [BindProperty]
         public User LoginUser { get; set; }
+        public string ErrMsg { get; set; }
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             if (ModelState.IsValid == false)
@@ -54,7 +55,11 @@ namespace XN_Blazor.Pages.Login
                 return Redirect("/");
             }
             else
+            {
+                ViewData["ErroMsg"] = "계정이 없습니다";
                 return Page();
+            }
+  
         }
     }
 }
