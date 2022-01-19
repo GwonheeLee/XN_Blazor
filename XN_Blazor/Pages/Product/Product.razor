@@ -60,27 +60,29 @@
 				<MudPaper Class="pa-2 ma-1" Square="true">
 					<MudGrid>
 						<MudItem xs="6" sm="6" md="6" lg="6">
-							<MudDatePicker Label="From Date" DateChanged="@SelectDateStart"
-								   HelperText="Start Date" DateFormat="yyyy/MM/dd" MaxDate="@DateTime.Now" />
+							<MudDatePicker Label="Start Date" DateChanged="@SelectDateStart"
+								   HelperText="Start Date" DateFormat="yyyy/MM/dd" MaxDate="@DateTime.Now" @ref="@StartPicker"/>
 						</MudItem>
 
 						<MudItem xs="6" sm="6" md="6" lg="6">
 							<MudDatePicker Label="End Date" DateChanged="@SelectDateEnd"
-								   HelperText="End Date" DateFormat="yyyy/MM/dd" MaxDate="@MaxDate" MinDate="@_startDate.Value.AddDays(1)" />
+								   HelperText="End Date" DateFormat="yyyy/MM/dd" MaxDate="@MaxDate" MinDate="@_startDate.Value.AddDays(1)" @ref="@EndPicker"/>
 						</MudItem>
 					</MudGrid>
 				</MudPaper>
 				@if (ShowChartToggle)
 				{
 
-					<MudPaper Class="pa-2 ma-2" Square="true">
+					<MudPaper Class="pa-2 ma-2" Square="true" >
 						<MudGrid>
-							<MudItem Class="pl-12" xs="12" sm="12" md="6" lg="3">
-								<MudChart ChartType="ChartType.Pie" InputData="@_pieChartData" InputLabels="@_labels" Width="100%" Height="350px" />
+							<MudItem xs="1" sm="1" md="1" lg="1"></MudItem>
+							<MudItem Class="pl-12" xs="10" sm="10" md="4" lg="4">
+								<MudChart ChartType="ChartType.Pie" InputData="@_pieChartData" InputLabels="@_labels" Width="100%" Height="500px" />
 							</MudItem>
+							<MudItem xs="1" sm="1" md="1" lg="1"></MudItem>
 
-							<MudItem xs="12" sm="12" md="6" lg="9">
-								<MudChart ChartType="ChartType.Bar" ChartSeries="@Series" XAxisLabels="@_chartX" Width="100%" Height="350px"></MudChart>
+							<MudItem xs="12" sm="12" md="6" lg="6">
+								<MudChart ChartType="ChartType.Bar" ChartSeries="@Series" XAxisLabels="@_chartX" Width="100%" Height="500px"></MudChart>
 							</MudItem>
 						</MudGrid>
 					</MudPaper>
@@ -89,9 +91,9 @@
 				<MudScrollToTop>
 					<MudFab Color="Color.Tertiary" Icon="@Icons.Filled.ArrowCircleUp" />
 				</MudScrollToTop>
-				<div style="height:200px"></div>
 			}
 		}
+		<div style="height:800px"></div>
 	</Authorized>
 </AuthorizeView>
 
@@ -102,6 +104,8 @@
 	//Item selectedItem1 = null;
 	List<Item> Items;
 	Item _selectedItem;
+	MudDatePicker StartPicker { get; set; }
+	MudDatePicker EndPicker{ get; set; }
 
 	//ShowToggle
 	bool ShowToggle { get { return _selectedItem != null; } set { ShowToggle = value; } }
@@ -184,8 +188,16 @@
 				new ChartSeries() {Name = _selectedItem.Item_Name,Data=new double[7] }
 		};
 		ShowChartToggle = false;
+		ResetDatePickers();
 	}
 
+	void ResetDatePickers()
+	{
+		_startDate = DateTime.Now;
+		_endDate = null;
+		StartPicker?.Reset();
+		EndPicker?.Reset();
+	}
 
 	protected override async Task OnInitializedAsync()
 	{

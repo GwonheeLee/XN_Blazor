@@ -12,6 +12,7 @@ using MudBlazor.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using XN_Blazor.Services;
 
@@ -42,7 +43,7 @@ namespace XN_Blazor
             services.AddHttpClient<ItemService>(c =>
             {
                 c.BaseAddress = new Uri("https://xnblazor.azurewebsites.net");
-               
+
             });
             services.AddHttpClient<LoginService>(c =>
             {
