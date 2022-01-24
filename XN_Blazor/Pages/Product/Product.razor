@@ -159,7 +159,7 @@
 		var itemQtyParam = new ItemQty()
 			{
 				Start = _startDate.Value,
-				End = _endDate.Value,
+				End = _endDate.Value.AddDays(-1),
 				Item_Code = _selectedItem.Item_Code
 			};
 		double[] result = await ItemService.GetItemQty(itemQtyParam);
